@@ -47,4 +47,5 @@ Basically, Mako uses python inside templates. See [Mako Documentation](http://do
 
 - cursor position,
 - loadable per file,
-- multiple template dirs
+- multiple template dirs,
+- moar templates/examples
