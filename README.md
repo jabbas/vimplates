@@ -45,7 +45,6 @@ See [Mako Documentation](http://docs.makotemplates.org/en/latest/)
 
 ## TODO list
 
-- configurable templates dir,
 - cursor position,
 - loadable per file,
 - multiple template dirs
