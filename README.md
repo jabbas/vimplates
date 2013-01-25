@@ -41,7 +41,7 @@ There are some special variables you can use in the templates:
 
 ### How to write your own templates?
 
-See [Mako Documentation](http://docs.makotemplates.org/en/latest/)
+Basically, Mako uses python inside templates. See [Mako Documentation](http://docs.makotemplates.org/en/latest/)
 
 ## TODO list
 
