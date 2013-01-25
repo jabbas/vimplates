@@ -12,6 +12,10 @@ if !exists('g:vimplates_email')
     let g:vimplates_email = 'john.doe@nothing.com'
 endif
 
+if !exists('g:vimplates_website')
+    let g:vimplates_website = 'http://nothing.com'
+endif
+
 "TODO cursor position
 "TODO loadable per file
 "TODO configurable templates dir
@@ -36,6 +40,7 @@ contents = template.render(
                 vars = variables,
                 username    = vim.eval('g:vimplates_username'),
                 email       = vim.eval('g:vimplates_email'),
+                website     = vim.eval('g:vimplates_website'),
             )
 
 # vim.current.buffer.append have problems with utf-8
