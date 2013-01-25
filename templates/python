@@ -1,3 +1,7 @@
 ## -*- coding: utf-8 -*-
 # -*- coding: utf-8 -*-
-# Author: ${author}
+# Author: ${"%s <%s>" % (username, email)}
+
+# filename = ${vars.filename}
+# filetype = ${vars.filetype}
+# currentdir = ${vars.cwd}
