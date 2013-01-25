@@ -13,7 +13,8 @@ if !exists('g:vimplates_email')
 endif
 
 "TODO cursor position
-"TODO author/email/etc..
+"TODO loadable per file
+"TODO configurable templates dir
 
 function! vimplates#Load()
 python << EOF
