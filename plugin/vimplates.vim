@@ -2,7 +2,6 @@ if !has('python')
     echo "Error: vim needs to be compiled with +python to run vimplates"
     finish
 endif
-let s:vimhome = expand("<sfile>:p:h:h")
 
 if !exists('g:vimplates_username')
     let g:vimplates_username = 'John Doe'
@@ -16,9 +15,9 @@ if !exists('g:vimplates_website')
     let g:vimplates_website = 'http://nothing.com'
 endif
 
-"TODO cursor position
-"TODO loadable per file
-"TODO configurable templates dir
+if !exists('g:vimplates_templates_dir')
+    let g:vimplates_templates_dir = expand("<sfile>:p:h:h") . '/templates/'
+endif
 
 function! vimplates#Load()
 python << EOF
@@ -26,7 +25,7 @@ import vim
 from mako.lookup import TemplateLookup
 
 filetype = vim.eval("&filetype")
-template_dir = "%s/templates/" % vim.eval('s:vimhome')
+template_dir = vim.eval('g:vimplates_templates_dir')
 
 class variables(object):
     filetype    = filetype

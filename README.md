@@ -47,4 +47,5 @@ See [Mako Documentation](http://docs.makotemplates.org/en/latest/).
 
 - configurable templates dir,
 - cursor position,
-- loadable per file
+- loadable per file,
+- multiple template dirs
