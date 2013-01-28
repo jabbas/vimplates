@@ -45,6 +45,6 @@ Basically, Mako uses python inside templates. See [Mako Documentation](http://do
 
 ## TODO list
 
-- cursor position,
+- improve cursor position (it's ugly and does not work in some cases)
 - loadable per file,
 - moar templates/examples

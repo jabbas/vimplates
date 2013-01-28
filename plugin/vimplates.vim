@@ -8,6 +8,13 @@ if !exists('g:vimplates_templates_dir')
 endif
 
 let g:vimplates_default_dir = expand("<sfile>:p:h:h") . '/templates/'
+
+function! vimplates#set_position()
+    " TODO kinda ugly
+    /VIMPLATES_CURSOR_POSITION
+    s/VIMPLATES_CURSOR_POSITION//
+endfunction
+
 function! vimplates#Load()
 
 python << EOF
@@ -24,15 +31,15 @@ default_vars = {
 }
 
 # Helper functions
-def set_vimvar(name, value):
+def vim_setvar(name, value):
     command = "if !exists('g:vimplates_%(name)s') |let g:vimplates_%(name)s = '%(val)s' |endif"
     vim.command(command % {'name': name, 'val': value})
-def get_vimvar(name):
+def vim_getvar(name):
     return vim.eval("g:vimplates_%s" % name)
 
 # Set default variables
 for varname, varvalue in default_vars.iteritems():
-    set_vimvar(varname, varvalue)
+    vim_setvar(varname, varvalue)
 
 #####
 
@@ -43,8 +50,8 @@ class variables(object):
     filename    = vim.current.buffer.name
     cwd         = vim.eval("getcwd()")
 
-template_dirs = [vim.eval('g:vimplates_default_dir')]
-template_dirs.extend(vim.eval('g:vimplates_templates_dirs'))
+template_dirs = [vim_getvar('default_dir')]
+template_dirs.extend(vim_getvar('templates_dirs'))
 template_dirs = list(set(template_dirs))
 lookup = TemplateLookup(directories=template_dirs)
 
@@ -52,10 +59,11 @@ try:
     template = lookup.get_template(filetype)
     contents = template.render(
                     vim         = vim,
+                    cursor      = 'VIMPLATES_CURSOR_POSITION',
                     vars        = variables,
-                    username    = get_vimvar('username'),
-                    email       = get_vimvar('email'),
-                    website     = get_vimvar('website'),
+                    username    = vim_getvar('username'),
+                    email       = vim_getvar('email'),
+                    website     = vim_getvar('website'),
                 )
 except TopLevelLookupException:
     contents = str()
@@ -64,6 +72,7 @@ except TopLevelLookupException:
 # vim.current.buffer.append have problems with utf-8
 vim.command("call append(line('0'), split('%s', '\n'))" % contents)
 EOF
+    call vimplates#set_position()
 endfunction
 
 autocmd BufNewFile * call vimplates#Load()
