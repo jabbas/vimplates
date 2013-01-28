@@ -12,14 +12,14 @@ Install to `~/.vim/plugins/` or if using [pathogen](https://github.com/tpope/vim
 
 Default templates directory is `.vim/templates` or (if you use pathogen) `.vim/bundle/vimplates/templates` you can change it by adding this line to your `.vimrc`:
 
-    let g:vimplates_templates_dir = '/path/to/templates'
+    let g:vimplates_templates_dirs = ['/path/to/templates', '/another/path/to/templates']
 
 You can configure some special variables which will be used in templates:
 
-- `g:vimplates_username` (default: "John Doe"),
-- `g:vimplates_email` (default: "john.doe@nothing.com"),
-- `g:vimplates_website` (default: "http://nothing.com"),
-- `g:vimplates_license` (default: "
+- `g:vimplates_username` (default: `"John Doe"`),
+- `g:vimplates_email` (default: `"john.doe@nothing.com"`),
+- `g:vimplates_website` (default: `"http://nothing.com"`),
+- `g:vimplates_license` (default: `"GPL-3"`)
 
 ## Templates
 
