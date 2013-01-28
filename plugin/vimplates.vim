@@ -3,22 +3,6 @@ if !has('python')
     finish
 endif
 
-if !exists('g:vimplates_username')
-    let g:vimplates_username = 'John Doe'
-endif
-
-if !exists('g:vimplates_email')
-    let g:vimplates_email = 'john.doe@nothing.com'
-endif
-
-if !exists('g:vimplates_website')
-    let g:vimplates_website = 'http://nothing.com'
-endif
-
-if !exists('g:vimplates_license')
-    let g:vimplates_license = 'GPL-3'
-endif
-
 if !exists('g:vimplates_templates_dir')
     let g:vimplates_templates_dirs = []
 endif
@@ -30,6 +14,27 @@ python << EOF
 import vim
 from mako.lookup import TemplateLookup
 from mako.exceptions import TopLevelLookupException
+
+# Defaults
+default_vars = {
+    'username': 'John Doe',
+    'email':    'john.doe@nothing.com',
+    'website':  'http://nothing.com',
+    'license':  'GPL-3'
+}
+
+# Helper functions
+def set_vimvar(name, value):
+    command = "if !exists('g:vimplates_%(name)s') |let g:vimplates_%(name)s = '%(val)s' |endif"
+    vim.command(command % {'name': name, 'val': value})
+def get_vimvar(name):
+    return vim.eval("g:vimplates_%s" % name)
+
+# Set default variables
+for varname, varvalue in default_vars.iteritems():
+    set_vimvar(varname, varvalue)
+
+#####
 
 filetype = vim.eval("&filetype")
 
@@ -48,9 +53,9 @@ try:
     contents = template.render(
                     vim         = vim,
                     vars        = variables,
-                    username    = vim.eval('g:vimplates_username'),
-                    email       = vim.eval('g:vimplates_email'),
-                    website     = vim.eval('g:vimplates_website'),
+                    username    = get_vimvar('username'),
+                    email       = get_vimvar('email'),
+                    website     = get_vimvar('website'),
                 )
 except TopLevelLookupException:
     contents = str()
