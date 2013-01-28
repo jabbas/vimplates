@@ -15,37 +15,50 @@ if !exists('g:vimplates_website')
     let g:vimplates_website = 'http://nothing.com'
 endif
 
-if !exists('g:vimplates_templates_dir')
-    let g:vimplates_templates_dir = expand("<sfile>:p:h:h") . '/templates/'
+if !exists('g:vimplates_license')
+    let g:vimplates_license = 'GPL-3'
 endif
 
+if !exists('g:vimplates_templates_dir')
+    let g:vimplates_templates_dirs = []
+endif
+
+let g:vimplates_default_dir = expand("<sfile>:p:h:h") . '/templates/'
 function! vimplates#Load()
+
 python << EOF
 import vim
 from mako.lookup import TemplateLookup
+from mako.exceptions import TopLevelLookupException
 
 filetype = vim.eval("&filetype")
-template_dir = vim.eval('g:vimplates_templates_dir')
 
 class variables(object):
     filetype    = filetype
     filename    = vim.current.buffer.name
     cwd         = vim.eval("getcwd()")
 
-lookup = TemplateLookup(directories=[template_dir])
-template = lookup.get_template(filetype)
-contents = template.render(
-                vim = vim,
-                vars = variables,
-                username    = vim.eval('g:vimplates_username'),
-                email       = vim.eval('g:vimplates_email'),
-                website     = vim.eval('g:vimplates_website'),
-            )
+template_dirs = [vim.eval('g:vimplates_default_dir')]
+template_dirs.extend(vim.eval('g:vimplates_templates_dirs'))
+template_dirs = list(set(template_dirs))
+lookup = TemplateLookup(directories=template_dirs)
+
+try:
+    template = lookup.get_template(filetype)
+    contents = template.render(
+                    vim         = vim,
+                    vars        = variables,
+                    username    = vim.eval('g:vimplates_username'),
+                    email       = vim.eval('g:vimplates_email'),
+                    website     = vim.eval('g:vimplates_website'),
+                )
+except TopLevelLookupException:
+    contents = str()
+    print "WARNING: Template for filetype '%s' not found in (%s)" % (filetype, ", ".join(template_dirs))
 
 # vim.current.buffer.append have problems with utf-8
 vim.command("call append(line('0'), split('%s', '\n'))" % contents)
 EOF
 endfunction
 
-"call LoadTemplate()
 autocmd BufNewFile * call vimplates#Load()

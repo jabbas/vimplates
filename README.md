@@ -16,10 +16,10 @@ Default templates directory is `.vim/templates` or (if you use pathogen) `.vim/b
 
 You can configure some special variables which will be used in templates:
 
-- `g:vimplates_username`
-- `g:vimplates_email`
-- `g:vimplates_website`
-- `g:vimplates_license`
+- `g:vimplates_username` (default: "John Doe"),
+- `g:vimplates_email` (default: "john.doe@nothing.com"),
+- `g:vimplates_website` (default: "http://nothing.com"),
+- `g:vimplates_license` (default: "
 
 ## Templates
 
@@ -47,5 +47,4 @@ Basically, Mako uses python inside templates. See [Mako Documentation](http://do
 
 - cursor position,
 - loadable per file,
-- multiple template dirs,
 - moar templates/examples
